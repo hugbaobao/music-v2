@@ -6,9 +6,15 @@ import router from './router'
 // 导入want所有组件
 import Vant from 'vant';
 import 'vant/lib/index.css';
+
+
+import 'lib-flexible/flexible.js'
+
+
 Vue.use(Vant)
 
 Vue.config.productionTip = false
+
 
 new Vue({
   router,
