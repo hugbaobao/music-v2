@@ -15,6 +15,8 @@ import Alb from '@/views/disalb/Alb.vue'
 import Login from '@/views/login/Login.vue'
 // 导入首页
 import Index from '@/views/index/index.vue'
+// 导入播放页
+import Play from '@/views/play/Play.vue'
 
 
 // 安装为Vue的插件
@@ -36,7 +38,9 @@ const routes = [
     {path:'Others',component:Others},
     {path:'Square',component:Square},
     {path:'Area',component:Area},
-  ]}]
+  ]},
+  {path:'/Play',component:Play},
+]
 
 // 创建路由对象
 const router = new VueRouter({

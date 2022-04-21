@@ -55,15 +55,17 @@
       <!-- input有内容时 -->
 <div v-show="!flag" class="blue">
   <van-list>
-  <li v-for="item in list" :key="item.index">
+  <li v-for="item in list" :key="item.index" @click="toPlay(item.id,item.name)">
     <img src="@/assets/icon/搜索.png" alt="">
     <span>{{ item.name }}</span>
   </li>
 </van-list>
 </div>
-
       </div>
-      
+      <div class="topaly" @click="gotoplay()">
+        <span>{{ SongName }}</span>
+        <van-icon name="play-circle-o"/>
+      </div>
   </div>
 </template>
 
@@ -85,13 +87,17 @@ return {
   topicList:[],
   mvList:[],
   AnchorList:[],
-  count:1
+  count:1,
+  SongId:0,
+  SongName:'',
 }
   },
  async created(){
             this.$nextTick(() => {
          this.openIn()
       });
+      this.SongId = localStorage.getItem('songid')
+      this.SongName = localStorage.getItem('songname')
    // 获取热搜    
 const { data:res } = await hotSearch()
  this.hotList = res.result.hots
@@ -135,8 +141,33 @@ this.$refs.songname.focus();
      this.timer = setTimeout(async()=>{
 const { data:res } = await getSongList(this.Sname,this.number)
  this.list = res.result.songs
+//  console.log(this.list);
      },500)
     },
+
+    // 跳转播放页
+    toPlay(thisid,thisname){
+      this.$router.push({
+        path:'/Play',
+        query:{
+          id:thisid,
+          Sname:thisname
+        }
+      })
+    },
+    gotoplay(){
+      if(this.SongName){
+        localStorage.removeItem('songname')
+        this.$router.push({
+        path:'/Play',
+        query:{
+          id:this.SongId,
+          Sname:this.SongName
+        }
+      })
+      }
+      
+    }
   },
 }
 </script>
@@ -227,5 +258,26 @@ padding-left: 0.6rem;
 .content .blue img {
   width: 0.26667rem;
   height: 0.26667rem;
+}
+.topaly {
+  width: 100%;
+  height: 1rem;
+  position: fixed;
+  bottom: 1.28rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(240, 239, 239);
+}
+.topaly span{
+  float: left;
+  font-size: 0.4rem;
+  margin-left: .5rem;
+}
+.topaly i {
+  float: right;
+  font-size: 0.7rem;
+  color: rgb(89, 88, 88);
+  margin-right: .5rem;
 }
 </style>
